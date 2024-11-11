@@ -41,9 +41,8 @@ Simular datos sobre el tiempo promedio que los estudiantes pasan usando disposit
 
 Simular calificaciones promedio de los estudiantes y analizar la relación entre el tiempo de uso de dispositivos y las calificaciones.
 
-Evaluar si existe una diferencia significativa en el rendimiento entre estudiantes que usan dispositivos solo para estudiar y aquellos que los usan también para otras actividades.
+Evaluar si existe una diferencia significativa en el rendimiento entre estudiantes que perciben un nivel alto o bajo de distracción.
 
-Realizar un análisis de correlación para ver si hay un umbral de tiempo en el que el uso de dispositivos comienza a tener un impacto negativo en el rendimiento.
 
 ## Segundo Paso:
 
@@ -111,7 +110,7 @@ head(datos_academicos)
 Añadirémos una variable más, estraida de "StudenPerformanceFactors.csv", encontrado en el siguiente enlace [enlace](https://www.kaggle.com/datasets/lainguyn123/student-performance-factors/data?select=StudentPerformanceFactors.csv).
 
 ```{r}
-students_data<-read.csv("~/Desktop/Practicas AD/tallerPreparacionExamen/StudentPerformanceFactors.csv",
+students_data<-read.csv("~/Desktop/Practicas AD/tallerPreExamen/StudentPerformanceFactors.csv",
                    header=TRUE, sep=",")
 
 subset_data <- students_data %>%
@@ -133,7 +132,7 @@ head(datos_academicos2)
 ```
 
 
-##Tercer Paso
+## Tercer Paso
 
 Para realizar un análisis descriptivo usaremos ggpairs con algunos los datos que parecen más relevantes para nuestros objetivos.
 
@@ -230,12 +229,63 @@ Vemos que no se anula, esto quiere decir que la verosimilitud del modelo no es m
 
 ## Sexto paso
 
-Realizaremos un contraste de hipótesis para comprobar si la media multivariable de las variables "calificacion_promedio" y "horas_estudio".
+Realizaremos un contraste de hipótesis para comprobar si la media multivariable de las variables "calificacion_promedio" y "horas_uso_dispositivos" es igual dentro del grupo de estudiantes con nivel de distracción bajo y con el grupo con nivel de distracción alto.
 
 ```{r}
 X1=datos_academicos2 %>% filter(nivel_distraccion=="Bajo")%>%
-  select()
+  select(calificacion_promedio,horas_uso_dispositivos)
+X2=datos_academicos2%>% filter(nivel_distraccion=="Alto")%>%
+  select(calificacion_promedio,horas_uso_dispositivos)
+
+#Calculo de medias y covarianzas
+medias1=colMeans(X1)
+medias2=colMeans(X2)
+S1=cov(X1)
+S2=cov(X2)
+
+#Estimación centrada de la matríz de covarianzas común
+
+S=(37*S1+32*S2)/(37+32)
+Sinv=solve(S)
+
+#Distancia de Mahalanobis 
+
+D=t(medias1-medias2)%*%Sinv%*%(medias1-medias2)
+
+#Calculo del estadistico F
+p=2
+n1=37
+n2=32
+estF=((n1+n2-1-p)/((n1+n2-2)*p))*((n1*n2)/(n1+n2))*D
+p_valor=1-pf(estF,66,2)
+p_valor
 ```
+
+Ahora con el test de Hotelling
+```{r}
+p_valor2=hotelling.test(X1,X2)
+p_valor2
+```
+En ambos casos obtenemos p-valores grandes (mayores a 0.05), entonces aceptamos la hipotesis nula, que en este caso es que las medias de los dos grupos son iguales.
+
+## Último paso
+
+### Conclusiones
+
+En el apartado 2 hemos notado que el boxplot nos daba la intuición de que la calificación media es independiente del nivel de distracción, por otra parte en el anterior apartado el contraste de hipótesis ha reforzado esta idea, ya que hemos visto que la media multivariante en el grupo de nivel de distracción bajo es igual a la del grupo de nivel de distracción alto, por tanto llegamos a esta conclusión, la de que no podemos determinar que haya una dependencia entre el nivel de distracción y la calificación promedio.
+
+Por otra parte también es interesante observar que el resultado del cuarto apartado nos hace llegar a la conclusión de que hay una gran cantidad de alumnos que perciben que su nivel de distracción es alto.
+
+### Bibliografia
+
+[Kaggle](https://www.kaggle.com/datasets/lainguyn123/student-performance-factors/data?select=StudentPerformanceFactors.csv)
+
+[Aprender R](https://aprender-uib.github.io/AD/)
+
+"Nuevos Métodos de Análisis Multivariante" de Carles M. Cuadras
+
+
+
 
 
 

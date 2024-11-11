@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -35,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
 <link href="respCarlos_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="respCarlos_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -42,7 +105,25 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link active" data-scroll-target="#resumen">Resumen</a></li>
+  <li><a href="#primer-paso" id="toc-primer-paso" class="nav-link" data-scroll-target="#primer-paso">Primer Paso:</a></li>
+  <li><a href="#segundo-paso" id="toc-segundo-paso" class="nav-link" data-scroll-target="#segundo-paso">Segundo Paso:</a></li>
+  <li><a href="#tabla-1" id="toc-tabla-1" class="nav-link" data-scroll-target="#tabla-1">Tabla 1</a></li>
+  <li><a href="#tercer-paso" id="toc-tercer-paso" class="nav-link" data-scroll-target="#tercer-paso">Tercer Paso</a></li>
+  <li><a href="#cuarto-paso" id="toc-cuarto-paso" class="nav-link" data-scroll-target="#cuarto-paso">Cuarto Paso</a></li>
+  <li><a href="#quinto-paso" id="toc-quinto-paso" class="nav-link" data-scroll-target="#quinto-paso">Quinto Paso</a></li>
+  <li><a href="#sexto-paso" id="toc-sexto-paso" class="nav-link" data-scroll-target="#sexto-paso">Sexto paso</a></li>
+  <li><a href="#último-paso" id="toc-último-paso" class="nav-link" data-scroll-target="#último-paso">Último paso</a>
+  <ul class="collapse">
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones">Conclusiones</a></li>
+  <li><a href="#bibliografia" id="toc-bibliografia" class="nav-link" data-scroll-target="#bibliografia">Bibliografia</a></li>
+  </ul></li>
+  </ul>
+</nav>
 </div>
 <main class="content" id="quarto-document-content">
 
@@ -73,14 +154,337 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p><a href="https://github.com/CarlosAlino/tallerPreparacionExamen.git">Enlace al repositorio de Github</a></p>
-<p>##Resumen Realizaremos un analisis multivariable basandonos en datos proporcionados por estudiantes universitarios. El objetivo es analizar la influencia del uso excesivo de dispositivos electrónicos durante las horas de estudio sobre el rendimiento académico.</p>
-<p>##Primer Paso: Hipótesis y objetivos #Hipótesis La hipotesis de la que partiremos será:“El uso excesivo de dispositivos electrónicos durante las horas de estudio afecta negativamente el rendimiento académico de los estudiantes universitarios”. Esta hipotesis se basa en la percepción de que un exceso de estímulos y distracciones reducir la calidad del estudio y de la concentración.</p>
-<p>#Objetivos Simular datos sobre el tiempo promedio que los estudiantes pasan usando dispositivos electrónicos durante sus horas de estudio, diferenciando entre redes sociales, entretenimiento y tareas académicas.</p>
+<section id="resumen" class="level2">
+<h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
+<p>Realizaremos un analisis multivariable basandonos en datos proporcionados por estudiantes universitarios. El objetivo es analizar la influencia del uso excesivo de dispositivos electrónicos durante las horas de estudio sobre el rendimiento académico.</p>
+</section>
+<section id="primer-paso" class="level2">
+<h2 class="anchored" data-anchor-id="primer-paso">Primer Paso:</h2>
+<p>Hipótesis y objetivos</p>
+<section id="hipótesis" class="level4">
+<h4 class="anchored" data-anchor-id="hipótesis">Hipótesis</h4>
+<p>La hipotesis de la que partiremos será:“El uso excesivo de dispositivos electrónicos durante las horas de estudio afecta negativamente el rendimiento académico de los estudiantes universitarios”. Esta hipotesis se basa en la percepción de que un exceso de estímulos y distracciones reducir la calidad del estudio y de la concentración.</p>
+</section>
+<section id="objetivos" class="level4">
+<h4 class="anchored" data-anchor-id="objetivos">Objetivos</h4>
+<p>Simular datos sobre el tiempo promedio que los estudiantes pasan usando dispositivos electrónicos durante sus horas de estudio, diferenciando entre redes sociales, entretenimiento y tareas académicas.</p>
 <p>Simular calificaciones promedio de los estudiantes y analizar la relación entre el tiempo de uso de dispositivos y las calificaciones.</p>
-<p>Evaluar si existe una diferencia significativa en el rendimiento entre estudiantes que usan dispositivos solo para estudiar y aquellos que los usan también para otras actividades.</p>
-<p>Realizar un análisis de correlación para ver si hay un umbral de tiempo en el que el uso de dispositivos comienza a tener un impacto negativo en el rendimiento.</p>
-<p>##Segundo Paso: Definición de las variables ####Variables cuantitativas: Horas de estudio diario: Tiempo promedio que el estudiante dedica al estudio cada día (en horas). Horas de uso de dispositivos electrónicos: Tiempo promedio que el estudiante pasa usando dispositivos durante sus horas de estudio (en horas). Horas de uso en redes sociales: Tiempo promedio dedicado a redes sociales durante el tiempo de estudio (en horas). Calificación promedio: Calificación promedio del estudiante en sus asignaturas (en puntos, sobre una escala de 0 a 10).</p>
-<p>####Variables ordinales Nivel de distracción percibida: Grado en que el estudiante considera que el uso de dispositivos lo distrae (bajo, medio, alto). Frecuencia de uso de dispositivos para entretenimiento durante el estudio: Regularidad con la que el estudiante usa los dispositivos para entretenimiento mientras estudia (nunca, ocasionalmente, frecuentemente, siempre).</p>
+<p>Evaluar si existe una diferencia significativa en el rendimiento entre estudiantes que perciben un nivel alto o bajo de distracción.</p>
+</section>
+</section>
+<section id="segundo-paso" class="level2">
+<h2 class="anchored" data-anchor-id="segundo-paso">Segundo Paso:</h2>
+<p>Definición de las variables</p>
+<section id="variables-cuantitativas" class="level4">
+<h4 class="anchored" data-anchor-id="variables-cuantitativas">Variables cuantitativas:</h4>
+<p>Horas de estudio diario: Tiempo promedio que el estudiante dedica al estudio cada día (en horas).</p>
+<p>Horas de uso de dispositivos electrónicos: Tiempo promedio que el estudiante pasa usando dispositivos durante sus horas de estudio (en horas).</p>
+<p>Horas de uso en redes sociales: Tiempo promedio dedicado a redes sociales durante el tiempo de estudio (en horas). Calificación promedio:</p>
+<p>Calificación promedio del estudiante en sus asignaturas (en puntos, sobre una escala de 0 a 10).</p>
+</section>
+<section id="variables-ordinales" class="level4">
+<h4 class="anchored" data-anchor-id="variables-ordinales">Variables ordinales</h4>
+<p>Nivel de distracción percibida: Grado en que el estudiante considera que el uso de dispositivos lo distrae (bajo, medio, alto).</p>
+<p>Frecuencia de uso de dispositivos para entretenimiento durante el estudio: Regularidad con la que el estudiante usa los dispositivos para entretenimiento mientras estudia (nunca, ocasionalmente, frecuentemente, siempre).</p>
+<p>Frecuencia de uso de dispositivos para fines académicos durante el estudio: Regularidad con la que el estudiante usa los dispositivos para estudiar (nunca, ocasionalmente, frecuentemente, siempre).</p>
+</section>
+<section id="variables-nominales" class="level4">
+<h4 class="anchored" data-anchor-id="variables-nominales">Variables nominales</h4>
+<p>Tipo de dispositivo principal: Dispositivo que el estudiante utiliza más durante sus horas de estudio (móvil, tableta, ordenador).</p>
+<p>Rama de la carrera universitaria: Área de estudios del estudiante, ya que el impacto de la tecnología podría variar entre áreas (ciencias sociales, ingenieria, artes y humanidades, ciencias naturales).</p>
+</section>
+</section>
+<section id="tabla-1" class="level2">
+<h2 class="anchored" data-anchor-id="tabla-1">Tabla 1</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir medias y matriz de covarianzas para las variables cuantitativas</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">6</span>)  <span class="co"># Medias de horas_estudio, horas_uso_dispositivos, horas_uso_redes, calificacion_promedio</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>covarianza <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                       <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                       <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="dv">1</span>, <span class="fl">0.2</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                       <span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="dv">1</span>), </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos numéricos con distribución normal multivariante</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">33</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>datos_numericos <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(<span class="dv">100</span>, <span class="at">mu =</span> media, <span class="at">Sigma =</span> covarianza)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Redondear valores de calificacion_promedio a escala de 0 a 10 con un decimal</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>datos_numericos[,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(<span class="fu">round</span>(datos_numericos[,<span class="dv">4</span>], <span class="dv">1</span>), <span class="dv">0</span>), <span class="dv">10</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear tabla de datos simulados</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>datos_academicos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">horas_estudio =</span> <span class="fu">round</span>(datos_numericos[,<span class="dv">1</span>], <span class="dv">1</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">horas_uso_dispositivos =</span> <span class="fu">round</span>(datos_numericos[,<span class="dv">2</span>], <span class="dv">1</span>),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">horas_uso_redes =</span> <span class="fu">round</span>(datos_numericos[,<span class="dv">3</span>], <span class="dv">1</span>),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">calificacion_promedio =</span> datos_numericos[,<span class="dv">4</span>],</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">tipo_dispositivo_principal =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Móvil"</span>, <span class="st">"Tableta"</span>, <span class="st">"Ordenador"</span>), <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">nivel_distraccion =</span> <span class="fu">ordered</span>(<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Bajo"</span>, <span class="st">"Medio"</span>, <span class="st">"Alto"</span>)),</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">frecuencia_uso_entretenimiento =</span> <span class="fu">ordered</span>(<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Nunca"</span>, <span class="st">"Ocasionalmente"</span>, <span class="st">"Frecuentemente"</span>, <span class="st">"Siempre"</span>)),</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">frecuencia_uso_academico =</span> <span class="fu">ordered</span>(<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Nunca"</span>, <span class="st">"Ocasionalmente"</span>, <span class="st">"Frecuentemente"</span>, <span class="st">"Siempre"</span>)),</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">rama_carrera =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Ciencias Naturales"</span>, <span class="st">"Ingeniería"</span>, <span class="st">"Artes y Humanidades"</span>, <span class="st">"Ciencias Sociales"</span>), <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar las primeras filas de la tabla simulada</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_academicos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  horas_estudio horas_uso_dispositivos horas_uso_redes calificacion_promedio
+1           3.1                    1.4             0.8                   7.2
+2           3.5                    1.3             1.5                   5.9
+3           1.7                    1.2             1.0                   5.4
+4           2.1                    3.4             1.6                   5.3
+5           4.5                    4.1             0.6                   8.9
+6           2.1                    2.2             2.5                   3.8
+  tipo_dispositivo_principal nivel_distraccion frecuencia_uso_entretenimiento
+1                    Tableta             Medio                 Ocasionalmente
+2                      Móvil              Alto                 Frecuentemente
+3                    Tableta             Medio                        Siempre
+4                    Tableta              Alto                 Ocasionalmente
+5                      Móvil              Bajo                 Frecuentemente
+6                    Tableta             Medio                        Siempre
+  frecuencia_uso_academico       rama_carrera
+1           Ocasionalmente         Ingeniería
+2                  Siempre         Ingeniería
+3                  Siempre         Ingeniería
+4                  Siempre         Ingeniería
+5           Frecuentemente Ciencias Naturales
+6                  Siempre         Ingeniería</code></pre>
+</div>
+</div>
+<p>Añadirémos una variable más, estraida de “StudenPerformanceFactors.csv”, encontrado en el siguiente enlace <a href="https://www.kaggle.com/datasets/lainguyn123/student-performance-factors/data?select=StudentPerformanceFactors.csv">enlace</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>students_data<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"~/Desktop/Practicas AD/tallerPreExamen/StudentPerformanceFactors.csv"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">","</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>subset_data <span class="ot">&lt;-</span> students_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Motivation_Level)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Tomar una muestra aleatoria de 100 observaciones</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">33</span>)  <span class="co"># Aseguramos reproducibilidad</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>sampled_data <span class="ot">&lt;-</span> subset_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La nueva variable es el nivel de motivación que tiene el estudiante ante sus estudios (low,medium o high). Procedemos a juntar estos datos a los que hemos simulado anteriormente:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nuevacolumna<span class="ot">&lt;-</span><span class="fu">data.frame</span>(sampled_data)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>datos_academicos2<span class="ot">&lt;-</span><span class="fu">bind_cols</span>(datos_academicos,nuevacolumna)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_academicos2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  horas_estudio horas_uso_dispositivos horas_uso_redes calificacion_promedio
+1           3.1                    1.4             0.8                   7.2
+2           3.5                    1.3             1.5                   5.9
+3           1.7                    1.2             1.0                   5.4
+4           2.1                    3.4             1.6                   5.3
+5           4.5                    4.1             0.6                   8.9
+6           2.1                    2.2             2.5                   3.8
+  tipo_dispositivo_principal nivel_distraccion frecuencia_uso_entretenimiento
+1                    Tableta             Medio                 Ocasionalmente
+2                      Móvil              Alto                 Frecuentemente
+3                    Tableta             Medio                        Siempre
+4                    Tableta              Alto                 Ocasionalmente
+5                      Móvil              Bajo                 Frecuentemente
+6                    Tableta             Medio                        Siempre
+  frecuencia_uso_academico       rama_carrera Motivation_Level
+1           Ocasionalmente         Ingeniería           Medium
+2                  Siempre         Ingeniería             High
+3                  Siempre         Ingeniería           Medium
+4                  Siempre         Ingeniería             High
+5           Frecuentemente Ciencias Naturales           Medium
+6                  Siempre         Ingeniería           Medium</code></pre>
+</div>
+</div>
+</section>
+<section id="tercer-paso" class="level2">
+<h2 class="anchored" data-anchor-id="tercer-paso">Tercer Paso</h2>
+<p>Para realizar un análisis descriptivo usaremos ggpairs con algunos los datos que parecen más relevantes para nuestros objetivos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>subset_datos_academicos<span class="ot">&lt;-</span>datos_academicos2 <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(horas_estudio,horas_uso_dispositivos,calificacion_promedio,nivel_distraccion)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(subset_datos_academicos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="respCarlos_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>En este grafico obtenemos información interesante: En la diagonal principal vemos las gráficas de las distribuciones de las variables numéricas, notamos que la variable que representa las horas de estudio esta centrada entorno a las 3 horas y la gran mayoría de datos se encuentran entre las 2 y las 4 horas; la variable que representa las horas de uso de dispositivos se centra aproximadamente en las 2 horas y concentra la mayoría de sus valores entre las 1.5 horas y 3 horas; y la calificación promedio se centra en los 6 puntos y la mayoría de sus valores están entre los 5 y los 7 puntos. En cuanto a las correlaciones vemos lo siguiente: La correlación entre las horas de uso de dispositivos y las horas de estudio es 0.578, lo cual nos indica que a mayor cantidad de horas de estudio también hay un mayor número de horas de uso de dispositivos durante el estudio, lo cual es lógico. La correlación entre las horas de estudio y la calificación es 0.371, lo cual nos da una indicación de que a mayor cantidad de horas de estudio mejor nota. Finalmente la correlación entre horas de uso de dispositivos y la calificación promedio es 0.282, positiva y por tanto nos da una indicación de que a mayor cantidad de horas de uso de dispositivos mejor nota, lo cual va en contra de la intuición que teniamos.</p>
+<p>Por otra parte observando los boxplot de la última columna es interesante observar que los boxplot de las calificaciones promedio según los niveles de distracción se superponen mucho, lo cual nos hace pensar que no existe una dependencia entre el nivel de distracción que perciben los alumnos y las notas que obtienen, a diferencia de la hipótesis que planteabamos.</p>
+<p>Observemos ahora la varianza generalizada y varianza total que tienen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>numericas<span class="ot">&lt;-</span>datos_academicos2 <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(horas_estudio,horas_uso_dispositivos,horas_uso_redes,calificacion_promedio)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>S<span class="ot">=</span><span class="fu">cov</span>(numericas)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>vaps<span class="ot">&lt;-</span><span class="fu">eigen</span>(S)<span class="sc">$</span>values</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>varianzaGeneralizada<span class="ot">&lt;-</span><span class="fu">prod</span>(vaps)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>varianzaTotal<span class="ot">&lt;-</span><span class="fu">sum</span>(vaps)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>varianzaGeneralizada</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5615366</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>varianzaTotal</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.149893</code></pre>
+</div>
+</div>
+<p>La variación total representa la dispersión individual de las variables, es decir, la variación de cada variable sin tener en cuenta las relaciones con otras variables. Por otra parte la varianza generalizada mide la variabilidad conjunta de las variables. En nuestro caso según el resultado obtenido la varianza generalizada es 0.5615 y la varianza total es 4.1499 aproximadamente. Esto nos indica que la variación conjunta es mucho menos a la variación individual de cada variable. Esto indica que hay redundancia entre las variables.</p>
+</section>
+<section id="cuarto-paso" class="level2">
+<h2 class="anchored" data-anchor-id="cuarto-paso">Cuarto Paso</h2>
+<p>Modelizaremos la variable “nivel_distraccion”: Debemos calcular las probabilidades de que cada individuo tenga cada nivel de distracción</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>probabilidadesDistraccion<span class="ot">&lt;-</span><span class="fu">prop.table</span>(<span class="fu">table</span>(datos_academicos2<span class="sc">$</span>nivel_distraccion))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>probabilidadesDistraccion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Bajo Medio  Alto 
+ 0.37  0.31  0.32 </code></pre>
+</div>
+</div>
+<p>Ahora podemos modelar la variable “nivel_distraccion” usando una multinomial. Calcularemos la probabilidad de que en una muestra de 20 individuos haya 5 o más personas que presenten un nivel de distracción alto:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>probBajo<span class="ot">&lt;-</span>probabilidadesDistraccion[<span class="st">"Bajo"</span>]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>probMedio<span class="ot">&lt;-</span>probabilidadesDistraccion[<span class="st">"Medio"</span>]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>probAlto<span class="ot">&lt;-</span>probabilidadesDistraccion[<span class="st">"Alto"</span>]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">33</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>simulaciones<span class="ot">&lt;-</span><span class="fu">rmultinom</span>(<span class="dv">1000</span>,<span class="at">size =</span> <span class="dv">20</span>,<span class="at">prob =</span> <span class="fu">c</span>(probBajo,probMedio,probAlto))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>Alto<span class="ot">&lt;-</span><span class="fu">sum</span>(simulaciones[<span class="dv">3</span>,]<span class="sc">&gt;=</span><span class="dv">5</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>probabilidadDistraccionAlta<span class="ot">&lt;-</span>Alto<span class="sc">/</span><span class="dv">1000</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>probabilidadDistraccionAlta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.822</code></pre>
+</div>
+</div>
+<p>Obtenemos el resultado de que la probabilidad de que en una población de 20 estudiantes haya 5 o más individuos que perciben que tienen un nivel de distracción alto es del 82.2%, esto nos indica que en la mayoría de los casos más de un cuarto de nuestra población sentirá que tiene muchas distracciones, posteriormente realizaremos un contraste de hipotesis para estudiar si estas distracciones afectan claramente la calificación promedio de los estudiantes.</p>
+</section>
+<section id="quinto-paso" class="level2">
+<h2 class="anchored" data-anchor-id="quinto-paso">Quinto Paso</h2>
+<p>Ajustaremos un modelo de regresión multivariante de la variable “calificacion_promedio” la cual queremos analizar en función del resto de variables cuantitativas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>regresion<span class="ot">&lt;-</span><span class="fu">lm</span>(calificacion_promedio <span class="sc">~</span> horas_estudio <span class="sc">+</span> horas_uso_dispositivos<span class="sc">+</span>horas_uso_redes , <span class="at">data=</span>numericas)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regresion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = calificacion_promedio ~ horas_estudio + horas_uso_dispositivos + 
+    horas_uso_redes, data = numericas)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.94375 -0.62037 -0.09148  0.52160  2.63230 
+
+Coefficients:
+                       Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)             4.87014    0.30912  15.755  &lt; 2e-16 ***
+horas_estudio           0.34012    0.12510   2.719  0.00778 ** 
+horas_uso_dispositivos  0.11304    0.12374   0.914  0.36323    
+horas_uso_redes        -0.03574    0.10443  -0.342  0.73296    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.9884 on 96 degrees of freedom
+Multiple R-squared:  0.1456,    Adjusted R-squared:  0.1189 
+F-statistic: 5.455 on 3 and 96 DF,  p-value: 0.001662</code></pre>
+</div>
+</div>
+<p>Queremos analizar la variable “calificacion_promedio” a partir de las otras tres. Consideremos que queremos estimar los parámetros <span class="math inline">\(\beta_0, \beta_1,\beta_2\)</span> y <span class="math inline">\(\beta_3\)</span> del modelo de regresión lineal múltiple:</p>
+<p><span class="math display">\[Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \epsilon,\]</span> donde <span class="math inline">\(Y\)</span> representa la calificación promedio, <span class="math inline">\(X_1\)</span> las horas de estudio, <span class="math inline">\(X_2\)</span> las horas de uso de dispositivos, <span class="math inline">\(X_3\)</span> las horas de uso de redes, y <span class="math inline">\(\epsilon\)</span> es el error.</p>
+<p>A través de la anterior prueva vemos que <span class="math inline">\(\beta_0=4.87\)</span>, <span class="math inline">\(\beta_1=0.34\)</span>, <span class="math inline">\(\beta_2=0.11\)</span>, <span class="math inline">\(\beta_3=-0.04\)</span>, esto nos insinua que por cada hora de estudio aumenta 0.34 puntos la calificación promedio, que por cada hora de uso de dispositivos la calificación promedio mejora 0.11 puntos, y que por cada hora de uso de redes sociales la calificación promedio empeora 0.04 puntos. Esto puede encaminarnos a la idea de que el uso de dispositivos no empeora el rendimiento generalmente, en cambio si este uso es para redes sociales sí aparece un empeoramiento del rendimiento, aun que poco significativo.</p>
+<p>Observando los p-valores obtenidos, vemos que la variable con más influencia sobre la calificación promedio es la variable “horas_estudio”, con un p-valor de 0.00778. Las otras dos variables tienen un p-valor mucho más grande y por tanto no es significativo.</p>
+<p>Por otra parte el valor de <span class="math inline">\(R^2\)</span> es 0.1456, lo cual nos indica que el modelo solo representa un 14.56% de la variación de la calificación promedio a partir de las otras tres variables cuantitativas que hemos considerado, lo cual hace pensar que sería necesario ampliar las variables del modelo para mejorar la representatividad que nos aporta el modelo.</p>
+<p>Calculemos la función de score:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>X<span class="ot">&lt;-</span>numericas <span class="sc">%&gt;%</span> <span class="fu">select</span>(horas_estudio,horas_uso_dispositivos,horas_uso_redes)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>X<span class="ot">&lt;-</span><span class="fu">as.matrix</span>(X)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>unos<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span>,<span class="fu">nrow</span>(X))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>X<span class="ot">&lt;-</span><span class="fu">cbind</span>(unos,X)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>B<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fl">4.87</span>,<span class="fl">0.34</span>,<span class="fl">0.11</span>,<span class="sc">-</span><span class="fl">0.04</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">33</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>e<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">100</span>,<span class="at">mean =</span> <span class="dv">0</span>,<span class="at">sd=</span><span class="dv">1</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>Y<span class="ot">=</span>X <span class="sc">%*%</span>B<span class="sc">+</span>e</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>ScoreSinSigma<span class="ot">=</span><span class="fu">t</span>(X)<span class="sc">%*%</span>(Y<span class="sc">-</span>X<span class="sc">%*%</span>B)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>ScoreSinSigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                             [,1]
+unos                     5.949108
+horas_estudio          -65.190342
+horas_uso_dispositivos -66.578586
+horas_uso_redes        -56.853812</code></pre>
+</div>
+</div>
+<p>Vemos que no se anula, esto quiere decir que la verosimilitud del modelo no es máxima con estos valores, es decir, con otros valores de los <span class="math inline">\(\beta_i\)</span> podriamos obtener una mayor verosimilitud.</p>
+</section>
+<section id="sexto-paso" class="level2">
+<h2 class="anchored" data-anchor-id="sexto-paso">Sexto paso</h2>
+<p>Realizaremos un contraste de hipótesis para comprobar si la media multivariable de las variables “calificacion_promedio” y “horas_uso_dispositivos” es igual dentro del grupo de estudiantes con nivel de distracción bajo y con el grupo con nivel de distracción alto.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>X1<span class="ot">=</span>datos_academicos2 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(nivel_distraccion<span class="sc">==</span><span class="st">"Bajo"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(calificacion_promedio,horas_uso_dispositivos)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>X2<span class="ot">=</span>datos_academicos2<span class="sc">%&gt;%</span> <span class="fu">filter</span>(nivel_distraccion<span class="sc">==</span><span class="st">"Alto"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(calificacion_promedio,horas_uso_dispositivos)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculo de medias y covarianzas</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>medias1<span class="ot">=</span><span class="fu">colMeans</span>(X1)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>medias2<span class="ot">=</span><span class="fu">colMeans</span>(X2)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>S1<span class="ot">=</span><span class="fu">cov</span>(X1)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>S2<span class="ot">=</span><span class="fu">cov</span>(X2)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Estimación centrada de la matríz de covarianzas común</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>S<span class="ot">=</span>(<span class="dv">37</span><span class="sc">*</span>S1<span class="sc">+</span><span class="dv">32</span><span class="sc">*</span>S2)<span class="sc">/</span>(<span class="dv">37</span><span class="sc">+</span><span class="dv">32</span>)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>Sinv<span class="ot">=</span><span class="fu">solve</span>(S)</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Distancia de Mahalanobis </span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>D<span class="ot">=</span><span class="fu">t</span>(medias1<span class="sc">-</span>medias2)<span class="sc">%*%</span>Sinv<span class="sc">%*%</span>(medias1<span class="sc">-</span>medias2)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculo del estadistico F</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>p<span class="ot">=</span><span class="dv">2</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>n1<span class="ot">=</span><span class="dv">37</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>n2<span class="ot">=</span><span class="dv">32</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>estF<span class="ot">=</span>((n1<span class="sc">+</span>n2<span class="dv">-1</span><span class="sc">-</span>p)<span class="sc">/</span>((n1<span class="sc">+</span>n2<span class="dv">-2</span>)<span class="sc">*</span>p))<span class="sc">*</span>((n1<span class="sc">*</span>n2)<span class="sc">/</span>(n1<span class="sc">+</span>n2))<span class="sc">*</span>D</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>p_valor<span class="ot">=</span><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(estF,<span class="dv">66</span>,<span class="dv">2</span>)</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>p_valor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         [,1]
+[1,] 0.770678</code></pre>
+</div>
+</div>
+<p>Ahora con el test de Hotelling</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p_valor2<span class="ot">=</span><span class="fu">hotelling.test</span>(X1,X2)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>p_valor2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Test stat:  1.3477 
+Numerator df:  2 
+Denominator df:  66 
+P-value:  0.5183 </code></pre>
+</div>
+</div>
+<p>En ambos casos obtenemos p-valores grandes (mayores a 0.05), entonces aceptamos la hipotesis nula, que en este caso es que las medias de los dos grupos son iguales.</p>
+</section>
+<section id="último-paso" class="level2">
+<h2 class="anchored" data-anchor-id="último-paso">Último paso</h2>
+<section id="conclusiones" class="level3">
+<h3 class="anchored" data-anchor-id="conclusiones">Conclusiones</h3>
+<p>En el apartado 2 hemos notado que el boxplot nos daba la intuición de que la calificación media es independiente del nivel de distracción, por otra parte en el anterior apartado el contraste de hipótesis ha reforzado esta idea, ya que hemos visto que la media multivariante en el grupo de nivel de distracción bajo es igual a la del grupo de nivel de distracción alto, por tanto llegamos a esta conclusión, la de que no podemos determinar que haya una dependencia entre el nivel de distracción y la calificación promedio.</p>
+<p>Por otra parte también es interesante observar que el resultado del cuarto apartado nos hace llegar a la conclusión de que hay una gran cantidad de alumnos que perciben que su nivel de distracción es alto.</p>
+</section>
+<section id="bibliografia" class="level3">
+<h3 class="anchored" data-anchor-id="bibliografia">Bibliografia</h3>
+<p><a href="https://www.kaggle.com/datasets/lainguyn123/student-performance-factors/data?select=StudentPerformanceFactors.csv">Kaggle</a></p>
+<p><a href="https://aprender-uib.github.io/AD/">Aprender R</a></p>
+<p>“Nuevos Métodos de Análisis Multivariante” de Carles M. Cuadras</p>
+</section>
+</section>
 
 </main>
 <!-- /main column -->
