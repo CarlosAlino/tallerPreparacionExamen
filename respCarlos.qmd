@@ -1,0 +1,244 @@
+---
+title: "Efecto del uso de tecnología en el rendimiento académico de estudiantes universitarios"
+subtitle: "20582 - Análisis de Datos para el GMAT"
+format:
+  html:
+    theme: lumen
+    toc: true
+    toc-depth: 3
+Rendering:
+    embed-resources: true
+author: 
+  - Carlos Aliño
+---
+
+[Enlace al repositorio de Github](https://github.com/CarlosAlino/tallerPreparacionExamen.git)
+
+```{r, echo=FALSE, eval=TRUE, message=FALSE}
+library(MASS)
+library(tidyverse)
+library(dplyr)
+library(GGally)
+library(Hotelling)
+
+```
+
+## Resumen
+
+Realizaremos un analisis multivariable basandonos en datos proporcionados por estudiantes universitarios. El objetivo es analizar la influencia del uso excesivo de dispositivos electrónicos durante las horas de estudio sobre el rendimiento académico.
+
+## Primer Paso:
+
+Hipótesis y objetivos
+
+#### Hipótesis
+
+La hipotesis de la que partiremos será:"El uso excesivo de dispositivos electrónicos durante las horas de estudio afecta negativamente el rendimiento académico de los estudiantes universitarios". Esta hipotesis se basa en la percepción de que un exceso de estímulos y distracciones reducir la calidad del estudio y de la concentración.
+
+#### Objetivos
+
+Simular datos sobre el tiempo promedio que los estudiantes pasan usando dispositivos electrónicos durante sus horas de estudio, diferenciando entre redes sociales, entretenimiento y tareas académicas.
+
+Simular calificaciones promedio de los estudiantes y analizar la relación entre el tiempo de uso de dispositivos y las calificaciones.
+
+Evaluar si existe una diferencia significativa en el rendimiento entre estudiantes que usan dispositivos solo para estudiar y aquellos que los usan también para otras actividades.
+
+Realizar un análisis de correlación para ver si hay un umbral de tiempo en el que el uso de dispositivos comienza a tener un impacto negativo en el rendimiento.
+
+## Segundo Paso:
+
+Definición de las variables
+
+#### Variables cuantitativas:
+
+Horas de estudio diario: Tiempo promedio que el estudiante dedica al estudio cada día (en horas).
+
+Horas de uso de dispositivos electrónicos: Tiempo promedio que el estudiante pasa usando dispositivos durante sus horas de estudio (en horas).
+
+Horas de uso en redes sociales: Tiempo promedio dedicado a redes sociales durante el tiempo de estudio (en horas). Calificación promedio:
+
+Calificación promedio del estudiante en sus asignaturas (en puntos, sobre una escala de 0 a 10).
+
+#### Variables ordinales
+
+Nivel de distracción percibida: Grado en que el estudiante considera que el uso de dispositivos lo distrae (bajo, medio, alto).
+
+Frecuencia de uso de dispositivos para entretenimiento durante el estudio: Regularidad con la que el estudiante usa los dispositivos para entretenimiento mientras estudia (nunca, ocasionalmente, frecuentemente, siempre).
+
+Frecuencia de uso de dispositivos para fines académicos durante el estudio: Regularidad con la que el estudiante usa los dispositivos para estudiar (nunca, ocasionalmente, frecuentemente, siempre).
+
+#### Variables nominales
+
+Tipo de dispositivo principal: Dispositivo que el estudiante utiliza más durante sus horas de estudio (móvil, tableta, ordenador).
+
+Rama de la carrera universitaria: Área de estudios del estudiante, ya que el impacto de la tecnología podría variar entre áreas (ciencias sociales, ingenieria, artes y humanidades, ciencias naturales).
+
+## Tabla 1
+
+```{r}
+# Definir medias y matriz de covarianzas para las variables cuantitativas
+media <- c(3, 2, 1, 6)  # Medias de horas_estudio, horas_uso_dispositivos, horas_uso_redes, calificacion_promedio
+covarianza <- matrix(c(1, 0.5, 0.3, 0.4,
+                       0.5, 1, 0.4, 0.3,
+                       0.3, 0.4, 1, 0.2,
+                       0.4, 0.3, 0.2, 1), 
+                     nrow = 4, ncol = 4)
+
+# Generar datos numéricos con distribución normal multivariante
+set.seed(33)
+datos_numericos <- mvrnorm(100, mu = media, Sigma = covarianza)
+
+# Redondear valores de calificacion_promedio a escala de 0 a 10 con un decimal
+datos_numericos[,4] <- pmin(pmax(round(datos_numericos[,4], 1), 0), 10)
+
+# Crear tabla de datos simulados
+datos_academicos <- data.frame(
+  horas_estudio = round(datos_numericos[,1], 1),
+  horas_uso_dispositivos = round(datos_numericos[,2], 1),
+  horas_uso_redes = round(datos_numericos[,3], 1),
+  calificacion_promedio = datos_numericos[,4],
+  tipo_dispositivo_principal = sample(c("Móvil", "Tableta", "Ordenador"), 100, replace = TRUE),
+  nivel_distraccion = ordered(sample(1:3, 100, replace = TRUE), labels = c("Bajo", "Medio", "Alto")),
+  frecuencia_uso_entretenimiento = ordered(sample(1:4, 100, replace = TRUE), labels = c("Nunca", "Ocasionalmente", "Frecuentemente", "Siempre")),
+  frecuencia_uso_academico = ordered(sample(1:4, 100, replace = TRUE), labels = c("Nunca", "Ocasionalmente", "Frecuentemente", "Siempre")),
+  rama_carrera = sample(c("Ciencias Naturales", "Ingeniería", "Artes y Humanidades", "Ciencias Sociales"), 100, replace = TRUE)
+)
+
+# Mostrar las primeras filas de la tabla simulada
+head(datos_academicos)
+```
+
+Añadirémos una variable más, estraida de "StudenPerformanceFactors.csv", encontrado en el siguiente enlace [enlace](https://www.kaggle.com/datasets/lainguyn123/student-performance-factors/data?select=StudentPerformanceFactors.csv).
+
+```{r}
+students_data<-read.csv("~/Desktop/Practicas AD/tallerPreparacionExamen/StudentPerformanceFactors.csv",
+                   header=TRUE, sep=",")
+
+subset_data <- students_data %>%
+  select(Motivation_Level)
+
+# Tomar una muestra aleatoria de 100 observaciones
+set.seed(33)  # Aseguramos reproducibilidad
+sampled_data <- subset_data %>%
+  sample_n(100)
+
+```
+
+La nueva variable es el nivel de motivación que tiene el estudiante ante sus estudios (low,medium o high). Procedemos a juntar estos datos a los que hemos simulado anteriormente:
+
+```{r}
+nuevacolumna<-data.frame(sampled_data)
+datos_academicos2<-bind_cols(datos_academicos,nuevacolumna)
+head(datos_academicos2)
+```
+
+
+##Tercer Paso
+
+Para realizar un análisis descriptivo usaremos ggpairs con algunos los datos que parecen más relevantes para nuestros objetivos.
+
+```{r}
+subset_datos_academicos<-datos_academicos2 %>% 
+  select(horas_estudio,horas_uso_dispositivos,calificacion_promedio,nivel_distraccion)
+ggpairs(subset_datos_academicos)
+```
+
+En este grafico obtenemos información interesante:
+En la diagonal principal vemos las gráficas de las distribuciones de las variables numéricas, notamos que la variable que representa las horas de estudio esta centrada entorno a las 3 horas y la gran mayoría de datos se encuentran entre las 2 y las 4 horas; la variable que representa las horas de uso de dispositivos se centra aproximadamente en las 2 horas y concentra la mayoría de sus valores entre las 1.5 horas y 3 horas; y la calificación promedio se centra en los 6 puntos y la mayoría de sus valores están entre los 5 y los 7 puntos.
+En cuanto a las correlaciones vemos lo siguiente:
+La correlación entre las horas de uso de dispositivos y las horas de estudio es 0.578, lo cual nos indica que a mayor cantidad de horas de estudio también hay un mayor número de horas de uso de dispositivos durante el estudio, lo cual es lógico.
+La correlación entre las horas de estudio y la calificación es 0.371, lo cual nos da una indicación de que a mayor cantidad de horas de estudio mejor nota.
+Finalmente la correlación entre horas de uso de dispositivos y la calificación promedio es 0.282, positiva y por tanto nos da una indicación de que a mayor cantidad de horas de uso de dispositivos mejor nota, lo cual va en contra de la intuición que teniamos.
+
+Por otra parte observando los boxplot de la última columna es interesante observar que los boxplot de las calificaciones promedio según los niveles de distracción se superponen mucho, lo cual nos hace pensar que no existe una dependencia entre el nivel de distracción que perciben los alumnos y las notas que obtienen, a diferencia de la hipótesis que planteabamos.
+
+Observemos ahora la varianza generalizada y varianza total que tienen:
+```{r}
+numericas<-datos_academicos2 %>%
+  select(horas_estudio,horas_uso_dispositivos,horas_uso_redes,calificacion_promedio)
+
+S=cov(numericas)
+vaps<-eigen(S)$values
+
+varianzaGeneralizada<-prod(vaps)
+varianzaTotal<-sum(vaps)
+varianzaGeneralizada
+varianzaTotal
+```
+
+La variación total representa la dispersión individual de las variables, es decir, la variación de cada variable sin tener en cuenta las relaciones con otras variables. Por otra parte la varianza generalizada mide la variabilidad conjunta de las variables. En nuestro caso según el resultado obtenido la varianza generalizada es 0.5615 y la varianza total es 4.1499 aproximadamente. Esto nos indica que la variación conjunta es mucho menos a la variación individual de cada variable. Esto indica que hay redundancia entre las variables.
+
+## Cuarto Paso
+
+Modelizaremos la variable "nivel_distraccion":
+Debemos calcular las probabilidades de que cada individuo tenga cada nivel de distracción
+
+```{r}
+probabilidadesDistraccion<-prop.table(table(datos_academicos2$nivel_distraccion))
+probabilidadesDistraccion
+```
+
+Ahora podemos modelar la variable "nivel_distraccion" usando una multinomial. Calcularemos la probabilidad de que en una muestra de 20 individuos haya 5 o más personas que presenten un nivel de distracción alto:
+
+```{r}
+probBajo<-probabilidadesDistraccion["Bajo"]
+probMedio<-probabilidadesDistraccion["Medio"]
+probAlto<-probabilidadesDistraccion["Alto"]
+set.seed(33)
+simulaciones<-rmultinom(1000,size = 20,prob = c(probBajo,probMedio,probAlto))
+Alto<-sum(simulaciones[3,]>=5)
+probabilidadDistraccionAlta<-Alto/1000
+probabilidadDistraccionAlta
+
+```
+Obtenemos el resultado de que la probabilidad de que en una población de 20 estudiantes haya 5 o más individuos que perciben que tienen un nivel de distracción alto es del 82.2%, esto nos indica que en la mayoría de los casos más de un cuarto de nuestra población sentirá que tiene muchas distracciones, posteriormente realizaremos un contraste de hipotesis para estudiar si estas distracciones afectan claramente la calificación promedio de los estudiantes.
+
+## Quinto Paso
+
+Ajustaremos un modelo de regresión multivariante de la variable "calificacion_promedio" la cual queremos analizar en función del resto de variables cuantitativas.
+
+```{r}
+regresion<-lm(calificacion_promedio ~ horas_estudio + horas_uso_dispositivos+horas_uso_redes , data=numericas)
+summary(regresion)
+```
+Queremos analizar la variable "calificacion_promedio" a partir de las otras tres. Consideremos que queremos estimar los parámetros $\beta_0, \beta_1,\beta_2$ y $\beta_3$ del modelo de regresión lineal múltiple:
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \epsilon,$$
+donde $Y$ representa la calificación promedio, $X_1$ las horas de estudio, $X_2$ las horas de uso de dispositivos, $X_3$ las horas de uso de redes, y $\epsilon$ es el error.
+
+A través de la anterior prueva vemos que $\beta_0=4.87$, $\beta_1=0.34$, $\beta_2=0.11$, $\beta_3=-0.04$, esto nos insinua que por cada hora de estudio aumenta 0.34 puntos la calificación promedio, que por cada hora de uso de dispositivos la calificación promedio mejora 0.11 puntos, y que por cada hora de uso de redes sociales la calificación promedio empeora 0.04 puntos. Esto puede encaminarnos a la idea de que el uso de dispositivos no empeora el rendimiento generalmente, en cambio si este uso es para redes sociales sí aparece un empeoramiento del rendimiento, aun que poco significativo.  
+
+Observando los p-valores obtenidos, vemos que la variable con más influencia sobre la calificación promedio es la variable "horas_estudio", con un p-valor de 0.00778. Las otras dos variables tienen un p-valor mucho más grande y por tanto no es significativo.
+
+Por otra parte el valor de $R^2$ es 0.1456, lo cual nos indica que el modelo solo representa un 14.56% de la variación de la calificación promedio a partir de las otras tres variables cuantitativas que hemos considerado, lo cual hace pensar que sería necesario ampliar las variables del modelo para mejorar la representatividad que nos aporta el modelo.
+
+
+Calculemos la función de score:
+```{r}
+X<-numericas %>% select(horas_estudio,horas_uso_dispositivos,horas_uso_redes)
+X<-as.matrix(X)
+unos<-rep(1,nrow(X))
+X<-cbind(unos,X)
+B<-c(4.87,0.34,0.11,-0.04)
+set.seed(33)
+e=rnorm(100,mean = 0,sd=1)
+Y=X %*%B+e
+ScoreSinSigma=t(X)%*%(Y-X%*%B)
+ScoreSinSigma
+```
+Vemos que no se anula, esto quiere decir que la verosimilitud del modelo no es máxima con estos valores, es decir, con otros valores de los $\beta_i$ podriamos obtener una mayor verosimilitud.
+
+## Sexto paso
+
+Realizaremos un contraste de hipótesis para comprobar si la media multivariable de las variables "calificacion_promedio" y "horas_estudio".
+
+```{r}
+X1=datos_academicos2 %>% filter(nivel_distraccion=="Bajo")%>%
+  select()
+```
+
+
+
+
+
+
