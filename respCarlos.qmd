@@ -33,7 +33,7 @@ Hipótesis y objetivos
 
 #### Hipótesis
 
-La hipotesis de la que partiremos será:"El uso excesivo de dispositivos electrónicos durante las horas de estudio afecta negativamente el rendimiento académico de los estudiantes universitarios". Esta hipotesis se basa en la percepción de que un exceso de estímulos y distracciones reducir la calidad del estudio y de la concentración.
+La hipotesis de la que partiremos será:"El uso excesivo de dispositivos electrónicos durante las horas de estudio afecta negativamente el rendimiento académico de los estudiantes universitarios". Esta hipotesis se basa en la percepción de que un exceso de estímulos y distracciones puede reducir la calidad del estudio y de la concentración.
 
 #### Objetivos
 
@@ -54,9 +54,9 @@ Horas de estudio diario: Tiempo promedio que el estudiante dedica al estudio cad
 
 Horas de uso de dispositivos electrónicos: Tiempo promedio que el estudiante pasa usando dispositivos durante sus horas de estudio (en horas).
 
-Horas de uso en redes sociales: Tiempo promedio dedicado a redes sociales durante el tiempo de estudio (en horas). Calificación promedio:
+Horas de uso en redes sociales: Tiempo promedio dedicado a redes sociales durante el tiempo de estudio (en horas). 
 
-Calificación promedio del estudiante en sus asignaturas (en puntos, sobre una escala de 0 a 10).
+Calificación promedio: Calificación promedio del estudiante en sus asignaturas (en puntos, sobre una escala de 0 a 10).
 
 #### Variables ordinales
 
